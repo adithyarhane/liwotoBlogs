@@ -69,8 +69,22 @@ export const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.json({ success: true, user: { user } });
+    return res.json({ success: true, user: { user } });
   } catch (error) {
-    res.status(500).json({ success: fale, message: error.message });
+    return res.status(500).json({ success: fale, message: error.message });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: process.env.NODE_ENV === "production" ? "node" : "strict",
+    });
+
+    return res.json({ success: false, message: "Logged Out!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
