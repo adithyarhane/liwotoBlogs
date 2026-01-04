@@ -172,3 +172,11 @@ export const verifyAccount = async (req, res) => {
     });
   }
 };
+
+export const isAuthenticated = async (req, res) => {
+  try {
+    return res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
