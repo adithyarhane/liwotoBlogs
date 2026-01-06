@@ -169,3 +169,22 @@ export const saveBlog = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const getSavedBlogs = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const savedBlogs = await blogModel
+      .find({ saves: userId, isPublished: true })
+      .populate("author", "name email")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      const: savedBlogs.length,
+      savedBlogs,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
