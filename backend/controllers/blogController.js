@@ -1,10 +1,11 @@
 import blogModel from "../models/blogModel.js";
 import mongoose from "mongoose";
+import cloudinary from "cloudinary";
 
 export const createBlog = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { title, description, content, tags, coverImage } = req.body;
+    const { title, description, content, isPublished } = req.body;
 
     if (!title || !description || !content) {
       return res.status(400).json({
@@ -12,19 +13,33 @@ export const createBlog = async (req, res) => {
         message: "Title, description, and content are required",
       });
     }
+    const tags = req.body.tags ? JSON.parse(req.body.tags) : [];
 
-    const blog = await blogModel.create({
+    const image = req.files.coverImage && req.files.coverImage[0];
+    const images = [image];
+
+    const imageUrl = await Promise.all(
+      images.map(async (item) => {
+        let result = await cloudinary.uploader.upload(item.path, {
+          resource_type: "image",
+        });
+        return { url: result.secure_url, altText: "blog coverImage" };
+      })
+    );
+
+    await blogModel.create({
       title,
       description,
       content,
-      tags: tags || [],
-      coverImage: coverImage || "",
+      tags: tags,
+      coverImage: imageUrl[0].url,
       author: userId,
+      isPublished,
     });
 
     return res.status(201).json({
       success: true,
-      blog,
+      message: "Blog created successfully.",
     });
   } catch (error) {
     return res.status(500).json({
@@ -99,7 +114,7 @@ export const likeBlog = async (req, res) => {
         .json({ success: false, message: "Invalid blog ID." });
     }
 
-    const blog = await blogModel.findById(blogId);
+    const blog = await blogModel.findById(blogId).populate("author", "name");
 
     if (!blog) {
       return res.status(404).json({
@@ -108,10 +123,10 @@ export const likeBlog = async (req, res) => {
       });
     }
 
-    const isLiked = blog.likes.includes(userId);
+    const isLiked = blog.likes.some((id) => id.toString() === userId);
 
     if (isLiked) {
-      blog.likes = blog.likes.filter((id) => id !== userId);
+      blog.likes = blog.likes.filter((id) => id.toString() !== userId);
     } else {
       blog.likes.push(userId);
     }
@@ -122,6 +137,7 @@ export const likeBlog = async (req, res) => {
       success: true,
       message: !isLiked,
       likesCount: blog.likes.length,
+      blog,
     });
   } catch (error) {
     return res.status(500).json({
@@ -142,7 +158,7 @@ export const saveBlog = async (req, res) => {
         .json({ success: false, message: "Invalid blog ID" });
     }
 
-    const blog = await blogModel.findById(blogId);
+    const blog = await blogModel.findById(blogId).populate("author", "name");
 
     if (!blog) {
       return res.status(404).json({
@@ -151,11 +167,14 @@ export const saveBlog = async (req, res) => {
       });
     }
 
-    const isSaved = blog.saves.includes(userId);
+    // Check if already saved
+    const isSaved = blog.saves.some((id) => id.toString() === userId);
 
     if (isSaved) {
-      blog.saves = blog.saves.filter((id) => id !== userId);
+      // UNSAVE
+      blog.saves = blog.saves.filter((id) => id.toString() !== userId);
     } else {
+      // SAVE
       blog.saves.push(userId);
     }
 
@@ -164,6 +183,7 @@ export const saveBlog = async (req, res) => {
     return res.status(200).json({
       success: true,
       saved: !isSaved,
+      blog,
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
@@ -183,6 +203,32 @@ export const getSavedBlogs = async (req, res) => {
       success: true,
       const: savedBlogs.length,
       savedBlogs,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getMyBlogs = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID",
+      });
+    }
+
+    const blogs = await blogModel
+      .find({ author: userId })
+      .populate("author", "name")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      count: blogs.length,
+      blogs,
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });

@@ -4,13 +4,12 @@ import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
 const NewPasswordForm = ({ email, resetOtp }) => {
-  const { resetPassword } = useAuthContext();
+  const { resetPassword, isLoading } = useAuthContext();
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
 
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +29,7 @@ const NewPasswordForm = ({ email, resetOtp }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 mb-32">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-6">
           <div className="p-4 rounded-full bg-emerald-500 text-white shadow mb-4">
@@ -103,19 +102,19 @@ const NewPasswordForm = ({ email, resetOtp }) => {
           {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
+            disabled={isLoading}
             className={`w-full py-3 rounded-lg text-white font-semibold transition flex items-center justify-center gap-2
               ${
-                loading
+                isLoading
                   ? "bg-emerald-400 cursor-not-allowed"
                   : "bg-emerald-500 hover:bg-emerald-600"
               }
             `}
           >
-            {loading && (
+            {isLoading && (
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
             )}
-            {loading ? "Resetting..." : "Reset Password"}
+            {isLoading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
 

@@ -6,12 +6,18 @@ import connectDB from "./config/mongoDB.js";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 import blogRouter from "./routes/blogRouter.js";
+import connectCloudinary from "./config/cloudinary.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 connectDB();
+connectCloudinary();
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://10.129.202.173:5173",
+  "http://10.129.202.135:5173",
+  "http://localhost:5173",
+];
 // middleware
 app.use(express.json());
 app.use(cors({ origin: allowedOrigins, credentials: true }));

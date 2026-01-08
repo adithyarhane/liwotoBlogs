@@ -6,7 +6,7 @@ export const getUserData = async (req, res) => {
   try {
     const user = await userModel
       .findById(userId)
-      .select("name isAccountVerified");
+      .select("name isAccountVerified _id");
 
     if (!user) {
       return res.json({ success: false, message: "User not found." });

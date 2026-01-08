@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ const Navbar = () => {
           to="/"
           className="text-2xl font-bold tracking-tight text-gray-900"
         >
-          Mern<span className="text-emerald-500">Blog</span>
+          Liwoto<span className="text-emerald-500">Blogs</span>
         </Link>
 
         {/* Desktop Links */}
@@ -23,6 +23,7 @@ const Navbar = () => {
           {isLoggedIn && (
             <>
               <NavLink to="/">Home</NavLink>
+              <NavLink to="/blogs">Blogs</NavLink>
               <NavLink to="/create-blog">Write</NavLink>
               <NavLink to="/saved-blogs">Saved</NavLink>
               <NavLink to="/my-blogs">My Blogs</NavLink>
@@ -93,6 +94,9 @@ const Navbar = () => {
               <MobileLink to="/" onClick={() => setOpen(false)}>
                 🏠 Home
               </MobileLink>
+              <MobileLink to="/blogs" onClick={() => setOpen(false)}>
+                📃 Blogs
+              </MobileLink>
 
               {isLoggedIn && (
                 <>
@@ -156,6 +160,7 @@ export default Navbar;
 /* Desktop Link */
 const NavLink = ({ to, children }) => (
   <Link
+    onClick={() => scrollTo(0, 0)}
     to={to}
     className="text-gray-600 hover:text-emerald-500 font-medium transition"
   >
@@ -166,6 +171,7 @@ const NavLink = ({ to, children }) => (
 /* Mobile Link */
 const MobileLink = ({ to, children, ...props }) => (
   <Link
+    onClick={() => scrollTo(0, 0)}
     to={to}
     {...props}
     className="w-full py-3 px-4 rounded-lg bg-gray-50 text-gray-700 font-medium hover:bg-emerald-50 hover:text-emerald-600 transition"

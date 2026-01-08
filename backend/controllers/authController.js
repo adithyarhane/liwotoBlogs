@@ -10,6 +10,13 @@ export const register = async (req, res) => {
   if (!name || !email || !password) {
     return res.json({ success: false, message: "Missing details." });
   }
+
+  if (password.length < 8) {
+    return res.json({
+      success: false,
+      message: "🔑 Your password is too weak.",
+    });
+  }
   try {
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {

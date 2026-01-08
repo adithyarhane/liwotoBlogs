@@ -54,7 +54,7 @@ const VerifyAccount = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 px-4">
-      <div className="relative w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/40">
+      <div className="relative w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/40 mb-32">
         {/* Header */}
         <div className="flex flex-col items-center text-center">
           <div className="p-4 rounded-full bg-emerald-500 text-white shadow-lg mb-4">
@@ -103,7 +103,7 @@ const VerifyAccount = () => {
 
           {/* Timer / Resend */}
           <div className="mt-6 flex items-center justify-between text-sm">
-            <p className="text-gray-600">Didn’t receive the code?</p>
+            <p className="text-gray-600">Didn`t receive the code?</p>
 
             {timer > 0 ? (
               <span className="text-gray-500">

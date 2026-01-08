@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Mail, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
@@ -8,7 +7,7 @@ const EmailToForgotPassword = ({ setIsEmailSent, email, setEmail }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 mb-32">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-6">
           <div className="p-4 rounded-full bg-emerald-500 text-white shadow mb-4">
