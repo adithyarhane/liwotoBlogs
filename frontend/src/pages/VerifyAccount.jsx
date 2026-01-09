@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { MailCheck, ShieldCheck, RotateCcw } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
 const VerifyAccount = () => {
-  const { isLoggedIn, userData, verifyAccount } = useAuthContext();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { isLoggedIn, userData, verifyAccount } = useAuthContext();
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);
@@ -47,10 +48,14 @@ const VerifyAccount = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn && userData?.isAccountVerified) {
+    if (
+      isLoggedIn &&
+      userData?.isAccountVerified &&
+      location.pathname.includes("/verify-account")
+    ) {
       navigate("/");
     }
-  }, [isLoggedIn, userData, navigate]);
+  }, [isLoggedIn, userData]);
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 px-4">

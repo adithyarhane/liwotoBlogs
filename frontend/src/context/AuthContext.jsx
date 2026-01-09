@@ -12,6 +12,7 @@ export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   const [userData, setUserData] = useState(false);
   // ---------------------- Register -------------------------------
@@ -54,6 +55,7 @@ export const AuthContextProvider = ({ children }) => {
 
       setIsLoggedIn(true);
       getUserData();
+      setIsAuthLoading(false);
       navigate("/");
     } catch (error) {
       toast.error(error.message);
@@ -172,12 +174,24 @@ export const AuthContextProvider = ({ children }) => {
   // ------------------ AUTH CHECK ON MOUNT --------------------
   useEffect(() => {
     const checkAuth = async () => {
-      const res = await axios.get(`${BASE_URL}/api/v1/auth/is-auth`);
-      if (res.data.success) {
-        setIsLoggedIn(true);
-        getUserData();
+      try {
+        const res = await axios.get(`${BASE_URL}/api/v1/auth/is-auth`);
+
+        if (res.data.success) {
+          setIsLoggedIn(true);
+          getUserData();
+        } else {
+          setIsLoggedIn(false);
+          setUserData(null);
+        }
+      } catch (error) {
+        setIsLoggedIn(false);
+        setUserData(null);
+      } finally {
+        setIsAuthLoading(false);
       }
     };
+
     checkAuth();
   }, []);
 
@@ -186,6 +200,7 @@ export const AuthContextProvider = ({ children }) => {
     setIsLoggedIn,
     userData,
     isLoading,
+    isAuthLoading,
     login,
     register,
     logout,

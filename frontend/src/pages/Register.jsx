@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuthContext } from "../context/AuthContext";
 
 const Register = () => {
+  const location = useLocation();
   const { register, isLoading, isLoggedIn, userData } = useAuthContext();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn && userData) {
+    if (isLoggedIn && userData && location.pathname.includes("register")) {
       navigate("/");
     }
   }, [isLoggedIn, userData]);

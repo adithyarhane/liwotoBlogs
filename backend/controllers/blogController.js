@@ -78,7 +78,6 @@ export const getBlog = async (req, res) => {
     const blog = await blogModel
       .findOne({
         _id: blogId,
-        isPublished: true,
       })
       .populate("author", "name");
 
@@ -206,6 +205,131 @@ export const getSavedBlogs = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteBlog = async (req, res) => {
+  const userId = req.user.id;
+  const { blogId } = req.params;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(blogId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid blog ID",
+      });
+    }
+
+    const blog = await blogModel.findById(blogId);
+
+    if (!blog) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Blog not found" });
+    }
+
+    if (blog.author.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to delete this blog.",
+      });
+    }
+
+    await blog.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Blog deleted successfully.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+export const updateBlog = async (req, res) => {
+  const userId = req.user.id;
+  const { blogId } = req.params;
+
+  try {
+    // ✅ Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(blogId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid blog ID.",
+      });
+    }
+
+    const blog = await blogModel.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    // ✅ Ownership check
+    if (blog.author.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to update this blog",
+      });
+    }
+
+    const { title, description, content, isPublished } = req.body;
+
+    // ✅ Parse tags safely
+    let tags = blog.tags;
+    if (req.body.tags) {
+      tags = JSON.parse(req.body.tags);
+    }
+
+    // ✅ Update fields
+    if (title) blog.title = title;
+    if (description) blog.description = description;
+    if (content) blog.content = content;
+    if (typeof isPublished !== "undefined") {
+      blog.isPublished = isPublished;
+    }
+    if (tags) blog.tags = tags;
+
+    // ✅ IMAGE UPDATE (SAFE, LOGIC SAME)
+    if (req.files && req.files.coverImage && req.files.coverImage.length > 0) {
+      const image = req.files.coverImage[0];
+      const images = [image];
+
+      const imageUrl = await Promise.all(
+        images.map(async (item) => {
+          const result = await cloudinary.uploader.upload(item.path, {
+            resource_type: "image",
+          });
+
+          return {
+            url: result.secure_url,
+            altText: "blog coverImage",
+          };
+        })
+      );
+
+      blog.coverImage = imageUrl[0].url;
+    }
+
+    await blog.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Blog updated successfully",
+      blog,
+    });
+  } catch (error) {
+    console.error("Update blog error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 

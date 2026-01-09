@@ -125,6 +125,41 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
+  const updateBlog = async (blogId, formData) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.patch(
+        `${BASE_URL}/api/v1/blog/update-blog/${blogId}`,
+        formData
+      );
+      if (res.data.success) {
+        toast.success(res.data.message);
+        navigate("/my-blogs");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteBlog = async (blogId) => {
+    try {
+      const res = await axios.delete(
+        `${BASE_URL}/api/v1/blog/delete-blog/${blogId}`
+      );
+      if (res.data.success) {
+        getMyBlogs();
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     fetchBlogs();
   }, []);
@@ -141,6 +176,8 @@ export const BlogContextProvider = ({ children }) => {
     getMyBlogs,
     myBlogs,
     createBlog,
+    updateBlog,
+    deleteBlog,
   };
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;
 };

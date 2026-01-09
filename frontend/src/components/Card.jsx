@@ -1,4 +1,4 @@
-import { Bookmark, Heart } from "lucide-react";
+import { Heart, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { dateFormat } from "../utils/dateFormat";
 import { useAuthContext } from "../context/AuthContext";
@@ -6,7 +6,24 @@ import { useBlogContext } from "../context/BlogContext";
 
 const Card = ({ blog }) => {
   const { userData } = useAuthContext();
-  const isLiked = blog.likes.filter((id) => id === userData._id);
+  const { deleteBlog } = useBlogContext();
+
+  // ✅ Safe checks
+  const isAuthor = userData && blog?.author?._id === userData?._id;
+
+  const isLiked = userData && blog?.likes?.some((id) => id === userData._id);
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const confirm = window.confirm(
+      "Are you sure you want to delete this blog?"
+    );
+    if (!confirm) return;
+
+    await deleteBlog(blog._id);
+  };
 
   return (
     <article
@@ -21,6 +38,7 @@ const Card = ({ blog }) => {
         flex
         flex-row-reverse
         md:flex-col
+        relative
       "
     >
       {/* IMAGE */}
@@ -101,20 +119,53 @@ const Card = ({ blog }) => {
         {/* META + ACTIONS */}
         <div className="flex items-center justify-between">
           <div className="text-xs md:text-sm text-gray-500">
-            {blog.author.name} · {dateFormat(blog.createdAt)}
+            {blog.author?.name} · {dateFormat(blog.createdAt)}
           </div>
 
-          <div className="flex items-center gap-4">
-            {isLiked.length === 1 ? (
-              <button className="cursor-pointer flex items-center gap-1 text-emerald-600  transition text-xs md:text-sm">
-                <Heart className="fill-emerald-600" size={15} />
-                {blog.likes.length}
-              </button>
-            ) : (
-              <button className="cursor-pointer flex items-center gap-1 text-gray-500  transition text-xs md:text-sm">
-                <Heart size={15} />
-                {blog.likes.length}
-              </button>
+          <div className="flex items-center gap-3">
+            {/* LIKE */}
+            <button
+              className={`flex items-center gap-1 text-xs md:text-sm transition
+                ${
+                  isLiked
+                    ? "text-emerald-600"
+                    : "text-gray-500 hover:text-emerald-600"
+                }`}
+            >
+              <Heart size={15} className={isLiked ? "fill-emerald-600" : ""} />
+              {blog.likes.length}
+            </button>
+
+            {/* AUTHOR ACTIONS */}
+            {isAuthor && (
+              <>
+                {/* EDIT */}
+                <Link
+                  to={`/edit-blog/${blog._id}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="
+                    text-gray-500
+                    hover:text-emerald-600
+                    transition
+                  "
+                  title="Edit blog"
+                >
+                  <Pencil size={15} />
+                </Link>
+
+                {/* DELETE */}
+                <button
+                  onClick={handleDelete}
+                  className="
+                    text-gray-500
+                    hover:text-red-500
+                    transition
+                  "
+                  title="Delete blog"
+                >
+                  <Trash2 size={15} />
+                </button>
+              </>
             )}
           </div>
         </div>

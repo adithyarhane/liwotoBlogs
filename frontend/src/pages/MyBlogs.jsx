@@ -16,7 +16,7 @@ const MyBlogs = () => {
       {/* ===== HEADER ===== */}
       <header className="relative bg-white border-b border-gray-200 overflow-hidden">
         {/* subtle accent */}
-        <div className="absolute -top-32 right-0 w-[500px] h-[500px] bg-emerald-100/40 rounded-full blur-3xl" />
+        <div className="absolute -top-32 right-0 w-125 h-125 bg-emerald-100/40 rounded-full blur-3xl" />
 
         <div className="relative max-w-7xl mx-auto px-4 py-16">
           <div className="flex flex-col gap-4">
@@ -53,7 +53,7 @@ const MyBlogs = () => {
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="h-[260px] bg-white border border-gray-200 rounded-xl animate-pulse"
+                className="h-65 bg-white border border-gray-200 rounded-xl animate-pulse"
               />
             ))}
           </div>

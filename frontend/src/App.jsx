@@ -18,6 +18,7 @@ import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermAndConditions from "./pages/TermAndConditions";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
+import EditBlog from "./pages/EditBlog";
 
 const App = () => {
   return (
@@ -29,10 +30,11 @@ const App = () => {
         <Route path="/blog/:blogId" element={<BlogDetails />} />
         <Route path="blogs" element={<Blogs />} />
         <Route element={<ProtectedRoutes />}>
+          <Route path="/verify-account" element={<VerifyAccount />} />
           <Route path="/my-blogs" element={<MyBlogs />} />
           <Route path="/saved-blogs" element={<SavedBlogs />} />
           <Route path="/create-blog" element={<CreateBlog />} />
-          <Route path="/verify-account" element={<VerifyAccount />} />
+          <Route path="/edit-blog/:blogId" element={<EditBlog />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -41,6 +43,8 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermAndConditions />} />
+
+        <Route path="/*" element={<Home />} />
       </Routes>
       <Footer />
     </>
