@@ -85,7 +85,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="mt-16 pt-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500">
           <span>
-            © {new Date().getFullYear()} MernBlog. All rights reserved.
+            © {new Date().getFullYear()} LiwotoBlogs. All rights reserved.
           </span>
 
           <span className="mt-3 md:mt-0">

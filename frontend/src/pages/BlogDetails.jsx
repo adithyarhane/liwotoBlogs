@@ -5,11 +5,13 @@ import { useBlogContext } from "../context/BlogContext";
 import { dateFormat } from "../utils/dateFormat";
 import RelatedArticleCard from "../components/RelatedArticleCard";
 import { useAuthContext } from "../context/AuthContext";
+import useTitle from "../components/useTitle";
 
 const BlogDetails = () => {
   const navigate = useNavigate();
-  const { blogId } = useParams();
+  const { blogId, blogTitle } = useParams();
   const { userData, isLoggedIn } = useAuthContext();
+  useTitle(blogTitle);
 
   const {
     getBlogById,
@@ -23,7 +25,6 @@ const BlogDetails = () => {
   useEffect(() => {
     getBlogById(blogId);
   }, [blogId]);
-
   if (isLoading || !currentBlog) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-24 animate-pulse">

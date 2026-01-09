@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { MailCheck, ShieldCheck, RotateCcw } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import useTitle from "../components/useTitle";
 
 const VerifyAccount = () => {
+  useTitle("Account Verification");
   const navigate = useNavigate();
   const location = useLocation();
   const { isLoggedIn, userData, verifyAccount } = useAuthContext();

@@ -3,8 +3,10 @@ import { Bookmark } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useBlogContext } from "../context/BlogContext";
 import Card from "../components/Card";
+import useTitle from "../components/useTitle";
 
 const SavedBlogs = () => {
+  useTitle("Saved blogs");
   const { getSavedBlogs, savedBlogs, isLoading, blogs } = useBlogContext();
 
   useEffect(() => {
@@ -62,6 +64,7 @@ const SavedBlogs = () => {
             </p>
 
             <Link
+              onClick={() => scrollTo(0, 0)}
               to="/blogs"
               className="mt-6 inline-flex items-center px-5 py-2.5 rounded-lg bg-emerald-500 text-white font-medium hover:bg-emerald-600 transition"
             >

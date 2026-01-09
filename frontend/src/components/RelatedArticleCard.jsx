@@ -1,12 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { dateFormat } from "../utils/dateFormat";
+import useTitle from "./useTitle";
 
 const RelatedArticleCard = ({ blog }) => {
+  const { blogTitle } = useParams();
+  useTitle(blogTitle);
   return (
     <div>
       <Link
-        to={`/blog/${blog._id}`}
+        to={`/blog/${blog._id}/${blog.title}`}
+        onClick={() => scrollTo(0, 0)}
         className="
                     group
                     flex

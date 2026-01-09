@@ -4,8 +4,10 @@ import VerifyResetOtp from "../components/VerifyResetOtp.jsx";
 import NewPasswordForm from "../components/NewPasswordForm.jsx";
 import { useAuthContext } from "../context/AuthContext.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
+import useTitle from "../components/useTitle.jsx";
 
 const ResetPassword = () => {
+  useTitle("Resetting password");
   const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState();

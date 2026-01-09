@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useBlogContext } from "../context/BlogContext";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
+import useTitle from "../components/useTitle";
 
 const Blogs = () => {
+  useTitle("blogs");
   const { blogs, isLoading } = useBlogContext();
   const [filter, setFilter] = useState("latest");
 
@@ -44,8 +46,9 @@ const Blogs = () => {
           <div className="grid md:grid-cols-2 gap-6">
             {featuredBlogs.map((blog) => (
               <Link
+                onClick={() => scrollTo(0, 0)}
                 key={blog._id}
-                to={`/blog/${blog._id}`}
+                to={`/blog/${blog._id}/${blog.title}`}
                 className="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition"
               >
                 <img

@@ -4,8 +4,10 @@ import { ImagePlus, Save } from "lucide-react";
 import { useBlogContext } from "../context/BlogContext";
 import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import useTitle from "../components/useTitle";
 
 const CreateBlog = () => {
+  useTitle("Create your blog");
   const navigate = useNavigate();
   const { userData } = useAuthContext();
   const { createBlog, isLoading } = useBlogContext();

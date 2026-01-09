@@ -27,7 +27,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/blog/:blogId" element={<BlogDetails />} />
+        <Route path="/blog/:blogId/:blogTitle" element={<BlogDetails />} />
         <Route path="blogs" element={<Blogs />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/verify-account" element={<VerifyAccount />} />

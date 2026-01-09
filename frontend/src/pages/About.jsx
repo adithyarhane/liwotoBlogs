@@ -1,6 +1,8 @@
 import { BookOpen, PenTool, Users, ShieldCheck } from "lucide-react";
+import useTitle from "../components/useTitle";
 
 const About = () => {
+  useTitle("About");
   return (
     <div className="min-h-screen bg-[#f9fafb]">
       {/* ===== HERO ===== */}

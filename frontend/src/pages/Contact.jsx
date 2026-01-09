@@ -1,6 +1,7 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
-
+import useTitle from "../components/useTitle";
 const Contact = () => {
+  useTitle("Contact");
   return (
     <div className="min-h-screen bg-[#f9fafb]">
       {/* ===== HERO ===== */}

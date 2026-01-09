@@ -86,7 +86,7 @@ const Card = ({ blog }) => {
         {/* Title & Description */}
         <div>
           <Link
-            to={`/blog/${blog._id}`}
+            to={`/blog/${blog._id}/${blog.title}`}
             onClick={() => scrollTo(0, 0)}
             className="
               block

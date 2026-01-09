@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuthContext } from "../context/AuthContext";
+import useTitle from "../components/useTitle";
 
 const Login = () => {
+  useTitle("Login");
   const location = useLocation();
   const navigate = useNavigate();
   const { login, isLoading, isLoggedIn, userData } = useAuthContext();

@@ -3,8 +3,10 @@ import { PenSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useBlogContext } from "../context/BlogContext";
 import Card from "../components/Card";
+import useTitle from "../components/useTitle";
 
 const MyBlogs = () => {
+  useTitle("My blogs");
   const { getMyBlogs, myBlogs, isLoading, blogs } = useBlogContext();
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const MyBlogs = () => {
             </div>
 
             <Link
+              onClick={() => scrollTo(0, 0)}
               to="/create-blog"
               className="mt-4 inline-flex w-fit items-center px-5 py-2.5 rounded-lg bg-emerald-500 text-white font-medium hover:bg-emerald-600 transition"
             >

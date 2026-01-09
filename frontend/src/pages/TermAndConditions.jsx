@@ -1,4 +1,7 @@
+import useTitle from "../components/useTitle";
+
 const TermsAndConditions = () => {
+  useTitle("Terms & Conditions");
   return (
     <div className="min-h-screen bg-[#f9fafb]">
       {/* ===== HEADER ===== */}

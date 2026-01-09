@@ -4,11 +4,14 @@ import { ImagePlus, Save } from "lucide-react";
 import { useBlogContext } from "../context/BlogContext";
 import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import useTitle from "../components/useTitle";
 
 const EditBlog = () => {
   const navigate = useNavigate();
   const { blogId } = useParams();
   const { userData } = useAuthContext();
+
+  useTitle(`Edit blog - ${blogId}`);
 
   const { getBlogById, currentBlog, updateBlog, isLoading } = useBlogContext();
 

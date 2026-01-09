@@ -47,6 +47,7 @@ const Hero = () => {
         <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
           <Link
             to="/create-blog"
+            onClick={() => scrollTo(0, 0)}
             className="px-8 py-3 bg-emerald-500 text-white rounded-full font-medium shadow-md hover:bg-emerald-600 hover:shadow-lg transition"
           >
             Start Writing
@@ -54,16 +55,12 @@ const Hero = () => {
 
           <Link
             to="/blogs"
+            onClick={() => scrollTo(0, 0)}
             className="px-8 py-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition"
           >
             Explore Blogs
           </Link>
         </div>
-
-        {/* Trust / Meta */}
-        <p className="mt-10 text-sm text-gray-500">
-          Crafted with MERN stack · Designed for clarity
-        </p>
       </div>
     </section>
   );

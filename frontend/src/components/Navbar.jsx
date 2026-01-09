@@ -123,8 +123,11 @@ const Navbar = () => {
                   Login
                 </MobileLink>
                 <Link
+                  onClick={() => {
+                    scrollTo(0, 0);
+                    setOpen(false);
+                  }}
                   to="/register"
-                  onClick={() => setOpen(false)}
                   className="w-full text-center py-3 rounded-lg bg-emerald-500 text-white font-medium hover:bg-emerald-600 transition"
                 >
                   Register

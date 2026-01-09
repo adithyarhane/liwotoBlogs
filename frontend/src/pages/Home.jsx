@@ -3,10 +3,14 @@ import Card from "../components/Card";
 import Hero from "../components/Hero";
 import Cta from "../components/Cta";
 import { useBlogContext } from "../context/BlogContext";
+import { useEffect } from "react";
 
 const Home = () => {
   const { blogs } = useBlogContext();
 
+  useEffect(() => {
+    document.title = "liwitoBlogs";
+  }, []);
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* HERO */}

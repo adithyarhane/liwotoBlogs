@@ -1,4 +1,7 @@
+import useTitle from "../components/useTitle";
+
 const PrivacyPolicy = () => {
+  useTitle("Privacy & policy");
   return (
     <div className="min-h-screen bg-[#f9fafb]">
       {/* ===== HEADER ===== */}
