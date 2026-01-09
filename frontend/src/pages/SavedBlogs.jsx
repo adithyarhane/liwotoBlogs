@@ -28,7 +28,7 @@ const SavedBlogs = () => {
                 Saved Articles
               </h1>
               <p className="mt-1 text-gray-600">
-                Articles you’ve bookmarked to read later
+                Articles you`ve bookmarked to read later
               </p>
             </div>
           </div>
@@ -43,7 +43,7 @@ const SavedBlogs = () => {
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="h-[260px] bg-white border border-gray-200 rounded-xl animate-pulse"
+                className="h-65 bg-white border border-gray-200 rounded-xl animate-pulse"
               />
             ))}
           </div>

@@ -15,6 +15,7 @@ const Cta = () => {
 
           <Link
             to="/create-blog"
+            onClick={() => scrollTo(0, 0)}
             className="inline-block mt-8 px-8 py-3 bg-emerald-500 text-white rounded-full font-medium hover:bg-emerald-600 transition"
           >
             Write your first blog
